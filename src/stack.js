@@ -2,7 +2,7 @@
 
 export default class Stack {
   constructor() {
-    this.top = 0
+    this.top = -1
     this.data = []
   }
 
@@ -12,7 +12,7 @@ export default class Stack {
   }
 
   pop() {
-    if (this.top === 0) {
+    if (this.top === -1) {
       return null
     } else {
       this.top--
@@ -21,7 +21,7 @@ export default class Stack {
   }
 
   peek() {
-    if (this.top === 0) {
+    if (this.top === -1) {
       return null
     } else {
       return this.data[this.top]
@@ -29,11 +29,11 @@ export default class Stack {
   }
 
   isEmpty() {
-    if (this.top === 0) return true
+    if (this.top === -1) return true
     else return false
   }
 
   length() {
-    return this.top
+    return this.top + 1
   }
 }
