@@ -1,6 +1,6 @@
 import chai, { expect } from 'chai'
 import chaiChange from 'chai-change'
-import BinarySearchTree, { TreeNode } from '../src/hashTable'
+import BinarySearchTree, { TreeNode } from '../src/BinarySearchTree'
 
 chai.use(chaiChange)
 
@@ -11,9 +11,13 @@ describe('Binary search tree', () => {
     expect(BinarySearchTree).to.be.a('function')
   })
 
+  it('should do more stuff', () => {
+    expect(4).to.be(3)
+  })
+
 })
 
-describe.only('Tree node', () => {
+describe('Tree node', () => {
   'use strict'
 
   it('exists', () => {
@@ -45,7 +49,7 @@ describe.only('Tree node', () => {
   })
 
   context('setLeft(leastNode)', () => {
-    it('changes the reference to the left node and returns the original node', () => {
+    it('changes the reference to the left node', () => {
       const myTreeNode = new TreeNode({data: 3})
       const mySecondTreeNode = new TreeNode({data: 7, left: myTreeNode})
 
@@ -53,10 +57,21 @@ describe.only('Tree node', () => {
       expect(mySecondTreeNode.getLeft().getData()).to.eql(3)
 
       const myThirdTreeNode = new TreeNode({data: 11})
+
       mySecondTreeNode.setLeft(myThirdTreeNode)
 
       expect(mySecondTreeNode.getLeft()).to.be.an.instanceof(TreeNode)
       expect(mySecondTreeNode.getLeft().getData()).to.eql(11)
+    })
+
+    it('returns the original node', () => {
+      const myTreeNode = new TreeNode({data: 3})
+      const mySecondTreeNode = new TreeNode({data: 7})
+
+      const returnValue = mySecondTreeNode.setLeft(myTreeNode)
+
+      expect(returnValue).to.be.an.instanceof(TreeNode)
+      expect(returnValue.getData()).to.eql(7)
     })
   })
 
@@ -76,20 +91,31 @@ describe.only('Tree node', () => {
     })
   })
 
-    context('setRight(leastNode)', () => {
-      it('changes the reference to the right node and returns the original node', () => {
-        const myTreeNode = new TreeNode({data: 3})
-        const mySecondTreeNode = new TreeNode({data: 7, right: myTreeNode})
+  context('setRight(leastNode)', () => {
+    it('changes the reference to the right node', () => {
+      const myTreeNode = new TreeNode({data: 3})
+      const mySecondTreeNode = new TreeNode({data: 7, right: myTreeNode})
 
-        expect(mySecondTreeNode.getLeft()).to.be.an.instanceof(TreeNode)
-        expect(mySecondTreeNode.getLeft().getData()).to.eql(3)
+      expect(mySecondTreeNode.getRight()).to.be.an.instanceof(TreeNode)
+      expect(mySecondTreeNode.getRight().getData()).to.eql(3)
 
-        const myThirdTreeNode = new TreeNode({data: 11})
-        mySecondTreeNode.setRight(myThirdTreeNode)
+      const myThirdTreeNode = new TreeNode({data: 11})
 
-        expect(mySecondTreeNode.getLeft()).to.be.an.instanceof(TreeNode)
-        expect(mySecondTreeNode.getLeft().getData()).to.eql(11)
-      })
+      mySecondTreeNode.setRight(myThirdTreeNode)
+
+      expect(mySecondTreeNode.getRight()).to.be.an.instanceof(TreeNode)
+      expect(mySecondTreeNode.getRight().getData()).to.eql(11)
     })
+
+    it('returns the original node', () => {
+      const myTreeNode = new TreeNode({data: 3})
+      const mySecondTreeNode = new TreeNode({data: 7})
+
+      const returnValue = mySecondTreeNode.setRight(myTreeNode)
+
+      expect(returnValue).to.be.an.instanceof(TreeNode)
+      expect(returnValue.getData()).to.eql(7)
+    })
+  })
 
 })
