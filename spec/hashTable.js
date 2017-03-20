@@ -1,10 +1,10 @@
 import chai, { expect } from 'chai'
 import chaiChange from 'chai-change'
-import HashTable from '../src/hashTable'
+import HashTable, { Bucket } from '../src/hashTable'
 
 chai.use(chaiChange)
 
-describe('Hash table', () => {
+describe.only('Hash table', () => {
   'use strict'
 
   it('exists', () => {
@@ -47,12 +47,21 @@ describe('Hash table', () => {
       myHashTable.put('title', 'Sir')
 
       const keys = []
+      const values = []
 
-      myHashTable.iterate((k, v) => keys.push(k))
+      myHashTable.iterate((k, v) => {
+        keys.push(k)
+        values.push(v)
+      })
 
       expect(key.includes('name'))
         .to.eql(true)
       expect(key.includes('title'))
+        .to.eql(true)
+
+      expect(values.includes('Zanzibar'))
+        .to.eql(true)
+      expect(values.includes('Sir'))
         .to.eql(true)
     })
   })
@@ -82,7 +91,92 @@ describe('Hash table', () => {
   context('hash()', () => {
     it('generates a hash for the key "name"', () => {
       expect(HashTable.hash('name'))
-        .to.be.a('string')
+        .to.be.a('number')
+    })
+  })
+})
+
+
+
+describe('Bucket', () => {
+  'use strict'
+
+  it('exists', () => {
+    expect(Bucket).to.be.a('function')
+  })
+
+  context('add(key, value)', () => {
+    it('adds a new key/value pair to the bucket', () => {
+      const myBucket = new Bucket()
+      expect(() => myBucket.add('name', 'Zanzibar'))
+        .to.alter(() => myBucket.size(), { from: 0, to: 1 })
+    })
+  })
+
+  context('find(key)', () => {
+    it('returns -1 if there is no pair with the given key', () => {
+      const myBucket = new Bucket()
+
+      expect(myBucket.find('BumbleBrick')).to.eql(-1)
+    })
+
+    it('returns the value associated with a given key', () => {
+      const myBucket = new Bucket()
+
+      myBucket.add('name', 'Zanzibar')
+
+      expect(myBucket.find('name')).to.eql('Zanzibar')
+    })
+  })
+
+  context('getAll()', () => {
+    it('returns an array of all the pairs', () => {
+      const myBucket = new Bucket()
+
+      myBucket.add('name', 'Zanzibar')
+      myBucket.add('title', 'Sir')
+
+      expect(myBucket.getAll()).to.be.an('array')
+      expect(myBucket.getAll().length).to.eql(2)
+
+      expect(
+        myBucket
+          .getAll()
+          .find(pair => pair.key === 'name')
+          .value
+      ).to.eql('Zanzibar')
+
+      expect(
+        myBucket
+          .getAll()
+          .find(pair => pair.key === 'title')
+          .value
+      ).to.eql('Sir')
+    })
+  })
+
+  context('remove()', () => {
+    it('removes the pair with the given key', () => {
+      const myBucket = new Bucket()
+
+      myBucket.add('name', 'Zanzibar')
+
+      expect(myBucket.find('name')).to.eql('Zanzibar')
+
+      myBucket.remove('name')
+
+      expect(myBucket.find('BumbleBrick')).to.eql(-1)
+    })
+  })
+
+  context('size()', () => {
+    it('returns the number of pairs in the bucket', () => {
+      const myBucket = new Bucket()
+
+      expect(myBucket.size()).to.eql(0)
+
+      expect(() => myBucket.add('name', 'Zanzibar'))
+        .to.alter(() => myBucket.size(), { from: 0, to: 1 })
     })
   })
 })
