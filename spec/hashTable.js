@@ -4,11 +4,24 @@ import HashTable, { Bucket } from '../src/hashTable'
 
 chai.use(chaiChange)
 
-describe.only('Hash table', () => {
+describe('Hash table', () => {
   'use strict'
 
   it('exists', () => {
     expect(HashTable).to.be.a('function')
+  })
+
+  context('hash()', () => {
+    it('generates a hash for the key "name"', () => {
+      expect(HashTable.hash('name'))
+        .to.be.a('number')
+
+      expect(HashTable.hash('name'))
+        .to.be.at.least(0)
+
+      expect(HashTable.hash('name'))
+        .to.be.at.most(9)
+    })
   })
 
   context('put()', () => {
@@ -54,9 +67,9 @@ describe.only('Hash table', () => {
         values.push(v)
       })
 
-      expect(key.includes('name'))
+      expect(keys.includes('name'))
         .to.eql(true)
-      expect(key.includes('title'))
+      expect(keys.includes('title'))
         .to.eql(true)
 
       expect(values.includes('Zanzibar'))
@@ -85,13 +98,6 @@ describe.only('Hash table', () => {
 
       expect(() => myHashTable.remove('name'))
         .to.alter(() => myHashTable.size(), { from: 1, to: 0 })
-    })
-  })
-
-  context('hash()', () => {
-    it('generates a hash for the key "name"', () => {
-      expect(HashTable.hash('name'))
-        .to.be.a('number')
     })
   })
 })

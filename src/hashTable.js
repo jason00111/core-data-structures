@@ -2,8 +2,7 @@
 
 export default class HashTable {
   constructor () {
-    this._numberOfBuckets = 10
-    this.buckets = Array(this._numberOfBuckets).fill(null).map(() => new Bucket())
+    this.buckets = Array(10).fill(null).map(() => new Bucket())
   }
 
   put (key, value) {
@@ -48,7 +47,7 @@ export default class HashTable {
       .reduce(
         (total, character) => total + character.charCodeAt(0),
         0
-      ) % this._numberOfBuckets
+      ) % 10
   }
 }
 
