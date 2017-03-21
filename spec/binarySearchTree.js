@@ -83,14 +83,6 @@ describe('Binary search tree', () => {
 
       const resultArray = []
 
-      // console.log('there are', myBST.count(), 'things in myBST')
-      //
-      // console.log('here is myBST:')
-      // console.log(myBST)
-      //
-      // console.log(`${myBST.count()} $ are about to appear`)
-
-      // myBST.traverse(value => console.log('$ traversing past', value))
       myBST.traverse(value => resultArray.push(value))
 
       expect(resultArray).to.eql([3, 4, 5, 6])

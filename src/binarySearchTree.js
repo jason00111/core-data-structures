@@ -34,7 +34,6 @@ export default class BinarySearchTree {
   }
 
   traverse (callback) {
-    // console.log('in BST traverse')
     if (!this.root) return
     this.root.traverse(callback)
   }
