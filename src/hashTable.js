@@ -35,19 +35,13 @@ export default class HashTable {
   }
 
   size () {
-    return this.buckets.reduce(
-      (size, bucket) => size + bucket.size(),
-      0
-    )
+    return this.buckets.reduce( (size, bucket) => size + bucket.size(), 0 )
   }
 
   static hash (key) {
     return key
       .split('')
-      .reduce(
-        (total, character) => total + character.charCodeAt(0),
-        0
-      ) % 10
+      .reduce( (total, character) => total + character.charCodeAt(0), 0 ) % 10
   }
 }
 

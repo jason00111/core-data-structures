@@ -15,8 +15,19 @@ describe('Binary search tree', () => {
     it('inserts a node with the specified value into the tree.', () => {
       const myBST = new BinarySearchTree()
 
-      expect(() => myBST.insert(3))
-        .to.alter(() => myBST.count(), { from: 0, to: 1 })
+      expect(myBST.count()).to.eql(0)
+
+      myBST.insert(3)
+
+      expect(myBST.count()).to.eql(1)
+
+      myBST.insert(4)
+
+      expect(myBST.count()).to.eql(2)
+
+      myBST.insert(2)
+
+      expect(myBST.count()).to.eql(3)
     })
   })
 
@@ -28,6 +39,15 @@ describe('Binary search tree', () => {
 
       expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
       expect(myBST.search(3).getData()).to.eql(3)
+
+      myBST.insert(4)
+      myBST.insert(2)
+
+      expect(myBST.search(2)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(2).getData()).to.eql(2)
+
+      expect(myBST.search(4)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(4).getData()).to.eql(4)
     })
 
     it(' or null if not found.', () => {
