@@ -72,7 +72,7 @@ describe('Binary search tree', () => {
     })
   })
 
-  context.only('traverse(callback)', () => {
+  context('traverse(callback)', () => {
     it('traverse the tree using in-order traversal and apply function on each node\'s value.', () => {
       const myBST = new BinarySearchTree()
 
