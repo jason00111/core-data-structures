@@ -72,7 +72,7 @@ describe('Binary search tree', () => {
     })
   })
 
-  context('traverse((val) => console.log(val))', () => {
+  context.only('traverse(callback)', () => {
     it('traverse the tree using in-order traversal and apply function on each node\'s value.', () => {
       const myBST = new BinarySearchTree()
 
@@ -83,6 +83,14 @@ describe('Binary search tree', () => {
 
       const resultArray = []
 
+      // console.log('there are', myBST.count(), 'things in myBST')
+      //
+      // console.log('here is myBST:')
+      // console.log(myBST)
+      //
+      // console.log(`${myBST.count()} $ are about to appear`)
+
+      // myBST.traverse(value => console.log('$ traversing past', value))
       myBST.traverse(value => resultArray.push(value))
 
       expect(resultArray).to.eql([3, 4, 5, 6])

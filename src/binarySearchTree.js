@@ -32,6 +32,12 @@ export default class BinarySearchTree {
 
     if (foundNode) foundNode.removeMyself()
   }
+
+  traverse (callback) {
+    // console.log('in BST traverse')
+    if (!this.root) return
+    this.root.traverse(callback)
+  }
 }
 
 export class TreeNode {
@@ -96,5 +102,15 @@ export class TreeNode {
       if (!this.right) return null
       return this.right.search(value)
     }
+  }
+
+  removeMyself () {
+
+  }
+
+  traverse (callback) {
+    if (this.left) this.left.traverse(callback)
+    callback(this.data)
+    if (this.right) this.right.traverse(callback)
   }
 }
