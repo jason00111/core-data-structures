@@ -11,8 +11,71 @@ describe('Binary search tree', () => {
     expect(BinarySearchTree).to.be.a('function')
   })
 
-  it('should do more stuff', () => {
-    expect(4).to.be(3)
+  context('insert(3)', () => {
+    it('inserts a node with the specified value into the tree.', () => {
+      const myBST = new BinarySearchTree()
+
+      expect(() => myBST.insert(3))
+        .to.alter(() => myBST.count(), { from: 0, to: 1 })
+    })
+  })
+
+  context('search(3)', () => {
+    it('returns a node object', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getData()).to.eql(3)
+    })
+
+    it(' or null if not found.', () => {
+      const myBST = new BinarySearchTree()
+
+      expect(myBST.search(3)).to.be.null
+    })
+  })
+
+  context('remove(3)', () => {
+    it('removes an value\'s node (if exists) from the tree.', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getData()).to.eql(3)
+
+      myBST.remove(3)
+
+      expect(myBST.search(3)).to.be.null
+    })
+  })
+
+  context('traverse((val) => console.log(val))', () => {
+    it('traverse the tree using in-order traversal and apply function on each node\'s value.', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+      myBST.insert(4)
+      myBST.insert(5)
+      myBST.insert(6)
+
+      const resultArray = []
+
+      myBST.traverse(value => resultArray.push(value))
+
+      expect(resultArray).to.eql([3, 4, 5, 6])
+    })
+  })
+
+  context('count()', () => {
+    it('return the number of nodes in the tree.', () => {
+      const myBST = new BinarySearchTree()
+
+      expect(() => myBST.insert(3))
+        .to.alter(() => myBST.count(), { from: 0, to: 1 })
+    })
   })
 
 })
