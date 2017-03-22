@@ -157,7 +157,12 @@ export class TreeNode {
     }
   }
 
-  removeMyselfFork () {
+  removeMyselfFork () { //fork has two children
+    console.log('here we are, trying to remove', this)
+    console.log('this.imRoot():', this.imRoot())
+    console.log('this.imALeaf():', this.imALeaf())
+    console.log('this.imATwig():', this.imATwig()) //problem here
+    console.log('this.imAFork():', this.imAFork()) //and here
     const minRightTreeNode = this.right.findMin()
 
     this.data = minRightTreeNode.getData()
@@ -174,18 +179,18 @@ export class TreeNode {
     return this.bst.root === this
   }
 
-  imALeaf () {
+  imALeaf () { //leaf has no children
     return !(this.getLeft() || this.getRight())
   }
 
-  imATwig () {
-    if (this.imRoot()) return false
-    return this.getRight() && this.getLeft()
+  imATwig () { //twig has only one child
+    if (this.imRoot()) return false //remove this?
+    return !(this.getRight() && this.getLeft()) && (this.getRight() || this.getLeft())
   }
 
-  imAFork () {
-    if (this.imRoot()) return false
-    return (this.getRight() || this.getLeft()) && !(this.getRight() && this.getLeft())
+  imAFork () { //fork has two children
+    if (this.imRoot()) return false //remove this?
+    return this.getRight() && this.getLeft()
   }
 
   getChild () {
