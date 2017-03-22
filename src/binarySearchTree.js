@@ -158,11 +158,6 @@ export class TreeNode {
   }
 
   removeMyselfFork () { //fork has two children
-    console.log('here we are, trying to remove', this)
-    console.log('this.imRoot():', this.imRoot())
-    console.log('this.imALeaf():', this.imALeaf())
-    console.log('this.imATwig():', this.imATwig()) //problem here
-    console.log('this.imAFork():', this.imAFork()) //and here
     const minRightTreeNode = this.right.findMin()
 
     this.data = minRightTreeNode.getData()

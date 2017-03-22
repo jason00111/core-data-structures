@@ -134,7 +134,7 @@ describe('Binary search tree', () => {
       expect(myBST.search(1)).to.be.an.instanceof(TreeNode)
     })
 
-    it.only('removes an value\'s node (if exists) from the tree.  [node with no right]', () => {
+    it('removes an value\'s node (if exists) from the tree.  [node with no right]', () => {
       const myBST = new BinarySearchTree()
 
       myBST.insert(3)
@@ -144,13 +144,9 @@ describe('Binary search tree', () => {
       expect(myBST.search(5)).to.be.an.instanceof(TreeNode)
       expect(myBST.search(5).getData()).to.eql(5)
 
-      console.log('BEFORE: myBST\n', myBST)
-
       myBST.remove(5)
 
-      console.log('AFTER: myBST\n', myBST)
-
-      // expect(myBST.search(5)).to.be.null
+      expect(myBST.search(5)).to.be.null
     })
 
     it('removes an value\'s node (if exists) from the tree.  [node with no left]', () => {
