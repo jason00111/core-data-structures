@@ -228,7 +228,7 @@ diGraph.getDirectionWeight('v1', 'v2') // returns direction weight between v1 & 
 diGraph.visit( 'v1', vertex => console.log(vertex)) // visit all the connected vertices in the graph starting with v1 and apply function on the reached vertex.
 diGraph.findShortestPath('v1', 'v2')  // returns an array of all the shortest paths between two vertices based on the sum of weights.
 diGraph.removeDirection('v1', 'v2')   // removes an existing direction between 'v1' and 'v2'.
-diGraph.getSeparatedVertices()        // returns an array of all the vertices that are separated from the graph.
+diGraph.getSeparatedVertices()        // returns an array of all the vertices that are unconnected to the graph (have no direction linking them to another vertex).
 diGraph.removeVertex('v1')            // removes an existing vertex and all its directions (the incoming and outgoing).
 diGraph.count()                       // returns the number of vertices in the graph.
 ```

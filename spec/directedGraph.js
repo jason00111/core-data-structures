@@ -131,11 +131,35 @@ describe('Directed graph', () => {
     })
   })
 
-  // context('getSeparatedVertices()', () => {
-  //   it('returns an array of all the vertices that are separated from the graph.', () => {
-  //      this spec needs work
-  //   })
-  // })
+  context('getSeparatedVertices()', () => {
+    it('returns an array of all the vertices that are unconnected to the graph (have no direction linking them to another vertex).', () => {
+      myDirectedGraph.addVertex('vA')
+      myDirectedGraph.addVertex('vB')
+      myDirectedGraph.addVertex('v1')
+      myDirectedGraph.addVertex('v2')
+      myDirectedGraph.addVertex('v3')
+      myDirectedGraph.addVertex('v4')
+      myDirectedGraph.addVertex('vC')
+      myDirectedGraph.addVertex('vD')
+      myDirectedGraph.addDirection('v1', 'v2', 3)
+      myDirectedGraph.addDirection('v1', 'v3', 5)
+      myDirectedGraph.addDirection('v2', 'v4', 3)
+      myDirectedGraph.addDirection('v3', 'v4', 5)
+      myDirectedGraph.addVertex('vE')
+      myDirectedGraph.addVertex('vF')
+
+      const separatedVerticies = myDirectedGraph.getSeparatedVertices()
+
+      expect(separatedVerticies).to.be.an('array')
+      expect(separatedVerticies.length).to.eql(6)
+      expect(separatedVerticies.includes('vA')).to.eql(true)
+      expect(separatedVerticies.includes('vB')).to.eql(true)
+      expect(separatedVerticies.includes('vC')).to.eql(true)
+      expect(separatedVerticies.includes('vD')).to.eql(true)
+      expect(separatedVerticies.includes('vE')).to.eql(true)
+      expect(separatedVerticies.includes('vF')).to.eql(true)
+    })
+  })
 
   context('removeVertex(\'v1\')', () => {
     it('removes an existing vertex and all its directions (the incoming and outgoing).', () => {
