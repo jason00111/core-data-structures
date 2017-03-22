@@ -31,7 +31,7 @@ describe('Binary search tree', () => {
     })
   })
 
-  context('search(3)', () => {
+  context.only('search(3)', () => {
     it('returns a node object', () => {
       const myBST = new BinarySearchTree()
 
@@ -55,10 +55,36 @@ describe('Binary search tree', () => {
 
       expect(myBST.search(3)).to.be.null
     })
+
+    it('can do this weird thing too', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+      myBST.insert(2)
+      myBST.insert(1)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(2)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(1)).to.be.an.instanceof(TreeNode)
+      // expect(myBST.search(3).getData()).to.eql(3)
+
+      // console.log('BEFORE: myBST', myBST)
+
+      myBST.remove(3)
+
+      // console.log('AFTER: myBST', myBST)
+
+      // console.log('expected to be null myBST.search(3)...', myBST.search(3))
+      // console.log('expected to be a TreeNode myBST.search(2)...', myBST.search(2))
+
+      expect(myBST.search(3)).to.be.null
+      expect(myBST.search(2)).to.be.an.instanceof(TreeNode) // search isn't working
+      // expect(myBST.search(1)).to.be.an.instanceof(TreeNode)
+    })
   })
 
-  context.only('remove(3)', () => {
-    it('removes an value\'s node (if exists) from the tree.  [root node]', () => {
+  context('remove(3)', () => {
+    it('removes an value\'s node (if exists) from the tree.  [root node no children]', () => {
       const myBST = new BinarySearchTree()
 
       myBST.insert(3)
@@ -69,38 +95,106 @@ describe('Binary search tree', () => {
       myBST.remove(3)
 
       expect(myBST.search(3)).to.be.null
+    })
+
+    it('removes an value\'s node (if exists) from the tree.  [root node with right no left]', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+      myBST.insert(4)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getData()).to.eql(3)
+
+      myBST.remove(3)
+
+      expect(myBST.search(3)).to.be.null
+    })
+
+    it('removes an value\'s node (if exists) from the tree.  [root node with left no right]', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+      myBST.insert(2)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getData()).to.eql(3)
+
+      myBST.remove(3)
+
+      expect(myBST.search(3)).to.be.null
+    })
+
+    it('removes an value\'s node (if exists) from the tree.  [root node with left and right]', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+      myBST.insert(2)
+      myBST.insert(1)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getData()).to.eql(3)
+
+      myBST.remove(3)
+
+      expect(myBST.search(3)).to.be.null
+      expect(myBST.search(2)).to.be.an.instanceof(TreeNode) // search isn't working
+      // expect(myBST.search(1)).to.be.an.instanceof(TreeNode)
     })
 
     it('removes an value\'s node (if exists) from the tree.  [node with no right]', () => {
       const myBST = new BinarySearchTree()
 
       myBST.insert(3)
+      myBST.insert(5)
+      myBST.insert(4)
 
-      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
-      expect(myBST.search(3).getData()).to.eql(3)
+      expect(myBST.search(5)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(5).getData()).to.eql(5)
 
-      myBST.remove(3)
+      myBST.remove(5)
 
-      expect(myBST.search(3)).to.be.null
+      expect(myBST.search(5)).to.be.null
     })
 
     it('removes an value\'s node (if exists) from the tree.  [node with no left]', () => {
       const myBST = new BinarySearchTree()
 
       myBST.insert(3)
+      myBST.insert(4)
+      myBST.insert(5)
 
-      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
-      expect(myBST.search(3).getData()).to.eql(3)
+      expect(myBST.search(4)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(4).getData()).to.eql(4)
 
-      myBST.remove(3)
+      myBST.remove(4)
 
-      expect(myBST.search(3)).to.be.null
+      expect(myBST.search(4)).to.be.null
     })
 
     it('removes an value\'s node (if exists) from the tree.  [node with no left or right]', () => {
       const myBST = new BinarySearchTree()
 
       myBST.insert(3)
+      myBST.insert(4)
+
+      expect(myBST.search(4)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(4).getData()).to.eql(4)
+
+      myBST.remove(4)
+
+      expect(myBST.search(4)).to.be.null
+    })
+
+    it('removes an value\'s node (if exists) from the tree.  [node with both left and right and root]', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+      myBST.insert(4)
+      myBST.insert(2)
+
+      expect(myBST.search(3).getLeft()).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getRight()).to.be.an.instanceof(TreeNode)
 
       expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
       expect(myBST.search(3).getData()).to.eql(3)
@@ -110,9 +204,10 @@ describe('Binary search tree', () => {
       expect(myBST.search(3)).to.be.null
     })
 
-    it('removes an value\'s node (if exists) from the tree.  [node with both left and right]', () => {
+    it('removes an value\'s node (if exists) from the tree.  [node with both left and right and not root]', () => {
       const myBST = new BinarySearchTree()
 
+      myBST.insert(1)
       myBST.insert(3)
       myBST.insert(4)
       myBST.insert(2)

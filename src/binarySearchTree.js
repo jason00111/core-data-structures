@@ -132,18 +132,16 @@ export class TreeNode {
   }
 
   removeMyself () {
-    const closeSideTreeNode = this.right
-      ? this.right.findMin()
-      : this.left
-        ? this.left.findMax()
-        : null
+    if (this.imRoot()) this.removeMyselfRoot()
+    else if (this.imALeaf()) this.removeMyselfLeaf()
+    else if (this.imATwig()) this.removeMyselfTwig()
+    else if (this.imAFork()) this.removeMyselfFork()
+  }
 
-    if (closeSideTreeNode) {
-      this.data = closeSideTreeNode.getData()
-      closeSideTreeNode.removeMyselfTwig()
-    } else {
-      this.removeMyselfLeaf()
-    }
+  removeMyselfRoot () {
+    if (this.getRight()) this.removeMyselfFork()
+    else if (this.getLeft()) this.removeMyselfForkLeft()
+    else this.data = null
   }
 
   removeMyselfLeaf () { //leaf has no children
@@ -157,6 +155,38 @@ export class TreeNode {
     } else if (this.imRight()) {
       this.getParent().setRight(this.getChild())
     }
+  }
+
+  removeMyselfFork () {
+    const minRightTreeNode = this.right.findMin()
+
+    this.data = minRightTreeNode.getData()
+    minRightTreeNode.removeMyselfTwig()
+  }
+
+  removeMyselfForkLeft () {
+    const minLeftTreeNode = this.left.findMin()
+
+    this.data = minLeftTreeNode.getData()
+    minLeftTreeNode.removeMyselfTwig()
+  }
+
+  imRoot () {
+    return this.bst.root === this
+  }
+
+  imALeaf () {
+    return !(this.getLeft() || this.getRight())
+  }
+
+  imATwig () {
+    if (this.imRoot()) return false
+    return this.getRight() && this.getLeft()
+  }
+
+  imAFork () {
+    if (this.imRoot()) return false
+    return (this.getRight() || this.getLeft()) && !(this.getRight() && this.getLeft())
   }
 
   getChild () {
