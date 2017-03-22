@@ -165,10 +165,9 @@ export class TreeNode {
   }
 
   removeMyselfForkLeft () {
-    const minLeftTreeNode = this.left.findMin()
-
-    this.data = minLeftTreeNode.getData()
-    minLeftTreeNode.removeMyselfTwig()
+    const maxLeftTreeNode = this.left.findMax()
+    this.data = maxLeftTreeNode.getData()
+    maxLeftTreeNode.removeMyselfTwig()
   }
 
   imRoot () {
@@ -194,11 +193,11 @@ export class TreeNode {
   }
 
   imLeft () {
-    return this.getData() < this.getParent().getData()
+    return this === this.getParent().getLeft()
   }
 
   imRight () {
-    return this.getData() > this.getParent().getData()
+    return this === this.getParent().getRight()
   }
 
   amIParentOf (childNode) {

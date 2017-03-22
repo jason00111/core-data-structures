@@ -4,7 +4,7 @@ import BinarySearchTree, { TreeNode } from '../src/BinarySearchTree'
 
 chai.use(chaiChange)
 
-describe('Binary search tree', () => {
+describe.only('Binary search tree', () => {
   'use strict'
 
   it('exists', () => {
@@ -31,7 +31,7 @@ describe('Binary search tree', () => {
     })
   })
 
-  context.only('search(3)', () => {
+  context('search(3)', () => {
     it('returns a node object', () => {
       const myBST = new BinarySearchTree()
 
@@ -66,20 +66,12 @@ describe('Binary search tree', () => {
       expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
       expect(myBST.search(2)).to.be.an.instanceof(TreeNode)
       expect(myBST.search(1)).to.be.an.instanceof(TreeNode)
-      // expect(myBST.search(3).getData()).to.eql(3)
-
-      // console.log('BEFORE: myBST', myBST)
 
       myBST.remove(3)
 
-      // console.log('AFTER: myBST', myBST)
-
-      // console.log('expected to be null myBST.search(3)...', myBST.search(3))
-      // console.log('expected to be a TreeNode myBST.search(2)...', myBST.search(2))
-
       expect(myBST.search(3)).to.be.null
-      expect(myBST.search(2)).to.be.an.instanceof(TreeNode) // search isn't working
-      // expect(myBST.search(1)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(1)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(2)).to.be.an.instanceof(TreeNode)
     })
   })
 
@@ -138,8 +130,8 @@ describe('Binary search tree', () => {
       myBST.remove(3)
 
       expect(myBST.search(3)).to.be.null
-      expect(myBST.search(2)).to.be.an.instanceof(TreeNode) // search isn't working
-      // expect(myBST.search(1)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(2)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(1)).to.be.an.instanceof(TreeNode)
     })
 
     it('removes an value\'s node (if exists) from the tree.  [node with no right]', () => {
