@@ -57,11 +57,68 @@ describe('Binary search tree', () => {
     })
   })
 
-  context('remove(3)', () => {
-    it('removes an value\'s node (if exists) from the tree.', () => {
+  context.only('remove(3)', () => {
+    it('removes an value\'s node (if exists) from the tree.  [root node]', () => {
       const myBST = new BinarySearchTree()
 
       myBST.insert(3)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getData()).to.eql(3)
+
+      myBST.remove(3)
+
+      expect(myBST.search(3)).to.be.null
+    })
+
+    it('removes an value\'s node (if exists) from the tree.  [node with no right]', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getData()).to.eql(3)
+
+      myBST.remove(3)
+
+      expect(myBST.search(3)).to.be.null
+    })
+
+    it('removes an value\'s node (if exists) from the tree.  [node with no left]', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getData()).to.eql(3)
+
+      myBST.remove(3)
+
+      expect(myBST.search(3)).to.be.null
+    })
+
+    it('removes an value\'s node (if exists) from the tree.  [node with no left or right]', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+
+      expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getData()).to.eql(3)
+
+      myBST.remove(3)
+
+      expect(myBST.search(3)).to.be.null
+    })
+
+    it('removes an value\'s node (if exists) from the tree.  [node with both left and right]', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(3)
+      myBST.insert(4)
+      myBST.insert(2)
+
+      expect(myBST.search(3).getLeft()).to.be.an.instanceof(TreeNode)
+      expect(myBST.search(3).getRight()).to.be.an.instanceof(TreeNode)
 
       expect(myBST.search(3)).to.be.an.instanceof(TreeNode)
       expect(myBST.search(3).getData()).to.eql(3)
@@ -198,6 +255,17 @@ describe('Tree node', () => {
 
       expect(returnValue).to.be.an.instanceof(TreeNode)
       expect(returnValue.getData()).to.eql(7)
+    })
+  })
+
+  context('findMin()', () => {
+    it('finds the min node', () => {
+      const myLeftTreeNode = new TreeNode({data: 3})
+      const myRightTreeNode = new TreeNode({data: 11})
+      const myParentTreeNode = new TreeNode({data: 7, left: myLeftTreeNode, right: myRightTreeNode})
+
+      expect(myParentTreeNode.findMin()).to.be.an.instanceof(TreeNode)
+      expect(myParentTreeNode.findMin().getData()).to.eql(3)
     })
   })
 

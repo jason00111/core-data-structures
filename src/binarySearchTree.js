@@ -103,13 +103,51 @@ export class TreeNode {
     }
   }
 
-  removeMyself () {
-
-  }
-
   traverse (callback) {
     if (this.left) this.left.traverse(callback)
     callback(this.data)
     if (this.right) this.right.traverse(callback)
+  }
+
+  findMin () {
+    if (!this.left) return this
+    return this.left.findMin()
+  }
+
+  findMax () {
+    if (!this.right) return this
+    return this.right.findMax()
+  }
+
+  removeMyself () {
+    const minSideTreeNode = this.right
+      ? this.right.findMin()
+      : this.left
+        ? this.left.findMax()
+        : null
+
+    if (minSideTreeNode) {
+      this.data = closeSideTreeNode.getData()
+      minSideTreeNode.removeMyselfTwig()
+    } else {
+      this.removeMyselfLeaf()
+    }
+  }
+
+  removeMyselfLeaf () {
+    if (this.imLeft()) this.getParent().setLeft(null)
+    else if (this.imRight()) this.getParent().setRight(null)
+  }
+
+  imLeft () {
+    return this.getData() < this.getParent().getData()
+  }
+
+  imRight () {
+    return this.getData() > this.getParent().getData()
+  }
+
+  getParent () {
+    
   }
 }
