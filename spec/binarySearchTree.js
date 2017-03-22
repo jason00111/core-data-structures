@@ -57,7 +57,7 @@ describe('Binary search tree', () => {
     })
   })
 
-  context.only('remove(3)', () => {
+  context('remove(3)', () => {
     it('removes an value\'s node (if exists) from the tree.  [root node]', () => {
       const myBST = new BinarySearchTree()
 
@@ -269,4 +269,38 @@ describe('Tree node', () => {
     })
   })
 
+  context('amIParentOf(childNode)', () => {
+    it('finds out if this is the parent of childNode', () => {
+      const myLeftTreeNode = new TreeNode({data: 3})
+      const myRightTreeNode = new TreeNode({data: 11})
+      const myParentTreeNode = new TreeNode({data: 7, left: myLeftTreeNode, right: myRightTreeNode})
+
+      const unconnectedTreeNode = new TreeNode({data: 12})
+
+      expect(myParentTreeNode.amIParentOf(myLeftTreeNode)).to.eql(true)
+      expect(myParentTreeNode.amIParentOf(myRightTreeNode)).to.eql(true)
+
+      expect(myParentTreeNode.amIParentOf(unconnectedTreeNode)).to.eql(false)
+    })
+  })
+
+  context('getParent()', () => {
+    it('finds the parent of this', () => {
+      const myBST = new BinarySearchTree()
+
+      myBST.insert(7)
+      myBST.insert(3)
+      myBST.insert(11)
+
+      const myLeftTreeNode = myBST.search(3)
+      const myRightTreeNode = myBST.search(11)
+      const myParentTreeNode = myBST.search(7)
+
+      expect(myLeftTreeNode.getParent()).to.be.an.instanceof(TreeNode)
+      expect(myRightTreeNode.getParent()).to.be.an.instanceof(TreeNode)
+
+      expect(myLeftTreeNode.getParent()).to.eql(myParentTreeNode)
+      expect(myRightTreeNode.getParent()).to.eql(myParentTreeNode)
+    })
+  })
 })

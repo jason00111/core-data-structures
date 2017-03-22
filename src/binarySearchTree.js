@@ -7,7 +7,7 @@ export default class BinarySearchTree {
 
   insert (value) {
     if (!this.root) {
-      this.root = new TreeNode({data: value})
+      this.root = new TreeNode({data: value, bst: this})
     } else {
       this.root.push(value)
     }
@@ -37,13 +37,19 @@ export default class BinarySearchTree {
     if (!this.root) return
     this.root.traverse(callback)
   }
+
+  traverseNodes (callback) {
+    if (!this.root) return
+    this.root.traverseNodes(callback)
+  }
 }
 
 export class TreeNode {
   constructor (options) {
-    this.data = options.data || null
+    this.data = options.data || null // || throw error
     this.right = options.right || null
     this.left = options.left || null
+    this.bst = options.bst  // || throw error
   }
 
   getData () {
@@ -73,11 +79,11 @@ export class TreeNode {
     else if ( value === this.data ) return
     else if ( value < this.data ) {
       if (this.left) this.left.push(value)
-      else this.left = new TreeNode({data: value})
+      else this.left = new TreeNode({data: value, bst: this.bst})
     }
     else if ( value > this.data ) {
       if (this.right) this.right.push(value)
-      else this.right = new TreeNode({data: value})
+      else this.right = new TreeNode({data: value, bst: this.bst})
     }
   }
 
@@ -107,6 +113,12 @@ export class TreeNode {
     if (this.left) this.left.traverse(callback)
     callback(this.data)
     if (this.right) this.right.traverse(callback)
+  }
+
+  traverseNodes (callback) {
+    if (this.left) this.left.traverseNodes(callback)
+    callback.bind(this)(this)
+    if (this.right) this.right.traverseNodes(callback)
   }
 
   findMin () {
@@ -147,7 +159,21 @@ export class TreeNode {
     return this.getData() > this.getParent().getData()
   }
 
+  amIParentOf (childNode) {
+    if (!childNode) return // throw error
+
+    return childNode === this.getLeft() || childNode === this.getRight()
+  }
+
   getParent () {
-    
+    let parentNode
+
+    const self = this
+
+    this.bst.traverseNodes(function (node) {
+      if (node.amIParentOf(self)) parentNode = this
+    })
+
+    return parentNode
   }
 }
