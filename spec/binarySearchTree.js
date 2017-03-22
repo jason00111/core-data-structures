@@ -57,7 +57,7 @@ describe('Binary search tree', () => {
     })
   })
 
-  context('remove(3)', () => {
+  context.only('remove(3)', () => {
     it('removes an value\'s node (if exists) from the tree.  [root node]', () => {
       const myBST = new BinarySearchTree()
 

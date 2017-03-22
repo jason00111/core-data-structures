@@ -132,23 +132,35 @@ export class TreeNode {
   }
 
   removeMyself () {
-    const minSideTreeNode = this.right
+    const closeSideTreeNode = this.right
       ? this.right.findMin()
       : this.left
         ? this.left.findMax()
         : null
 
-    if (minSideTreeNode) {
+    if (closeSideTreeNode) {
       this.data = closeSideTreeNode.getData()
-      minSideTreeNode.removeMyselfTwig()
+      closeSideTreeNode.removeMyselfTwig()
     } else {
       this.removeMyselfLeaf()
     }
   }
 
-  removeMyselfLeaf () {
+  removeMyselfLeaf () { //leaf has no children
     if (this.imLeft()) this.getParent().setLeft(null)
     else if (this.imRight()) this.getParent().setRight(null)
+  }
+
+  removeMyselfTwig () { //twig has only one child
+    if (this.imLeft()) {
+      this.getParent().setLeft(this.getChild())
+    } else if (this.imRight()) {
+      this.getParent().setRight(this.getChild())
+    }
+  }
+
+  getChild () {
+    return this.getRight() ? this.getRight() : this.getLeft() ? this.getLeft() : null
   }
 
   imLeft () {
