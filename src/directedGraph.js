@@ -1,85 +1,80 @@
 'use strict'
 
-export default class HashTable {
+export default class DirectedGraph { // really a weighted directed graph aka directed networks
   constructor () {
-    this.buckets = Array(10).fill(null).map(() => new Bucket())
+    this.elements = []
+    this.orderedPairs = [] // [startVertex, endVertex, weight]
   }
 
-  put (key, value) {
-    const bucketNumber = HashTable.hash(key)
-    this.buckets[bucketNumber].add(key, value)
+  addVertex (vertex) {
+    this.elements.push(vertex)
   }
 
-  get (key) {
-    const bucketNumber = HashTable.hash(key)
-    return this.buckets[bucketNumber].find(key)
+  hasVertex (vertex) {
+    return this.elements.includes(vertex)
   }
 
-  contains (key) {
-    const bucketNumber = HashTable.hash(key)
-    return this.buckets[bucketNumber].find(key) !== -1
+  addDirection (startVertex, endVertex, weight) {
+    this.orderedPairs.push([startVertex, endVertex, weight])
   }
 
-  iterate (callback) {
-    const allPairs = this.buckets.reduce(
-      (all, bucket) => all.concat(bucket.getAll()),
-      []
+  hasDirection (startVertex, endVertex) {
+    if (
+      this.orderedPairs.find(
+        pair => pair[0] === startVertex && pair[1] === endVertex
+      ) !== -1
+    ) return true
+
+    return false
+  }
+
+  getDirectionWeight (startVertex, endVertex) {
+    if (!this.hasDirection(startVertex, endVertex)) return null
+
+    return this.orderedPairs.find(
+      pair => pair[0] === startVertex && pair[1] === endVertex
+    )[2]
+  }
+
+  visit (startVertex, callback) {
+    this.elements.forEach(callback)
+  }
+
+  findShortestPath (startVertex, endVertex) {
+    //
+  }
+
+  removeDirection (startVertex, endVertex) {
+    if (!this.hasDirection(startVertex, endVertex)) return
+
+    const directionIndex = this.orderedPairs.findIndex(
+      pair => pair[0] === startVertex && pair[1] === endVertex
     )
 
-    allPairs.forEach(pair => callback(pair.key, pair.value))
+    this.orderedPairs.splice(directionIndex, 1)
   }
 
-  remove (key) {
-    const bucketNumber = HashTable.hash(key)
-    this.buckets[bucketNumber].remove(key)
+  getSeparatedVertices () {
+
   }
 
-  size () {
-    return this.buckets.reduce( (size, bucket) => size + bucket.size(), 0 )
-  }
+  removeVertex (vertexToRemove) {
+    const elementIndex = this.elements.findIndex(
+      element => element === vertexToRemove
+    )
 
-  static hash (key) {
-    return key
-      .split('')
-      .reduce( (total, character) => total + character.charCodeAt(0), 0 ) % 10
-  }
-}
+    this.elements.splice(elementIndex, 1)
 
-export class Bucket {
-  constructor () {
-    this.things = {}
-  }
+    let directionIndex
 
-  add (key, value) {
-    this.things[key] = value
-  }
-
-  find (key) {
-    if (key in this.things) {
-      return this.things[key]
-    } else {
-      return -1
+    while ( directionIndex = this.orderedPairs.findIndex(
+        pair => pair[0] === startVertex && pair[1] === endVertex
+    )) {
+      this.orderedPairs.splice(directionIndex, 1)
     }
   }
 
-  getAll () {
-    const arrayOfThings = []
-
-    for (const key in this.things) {
-      arrayOfThings.push({
-        key: key,
-        value: this.things[key]
-      })
-    }
-
-    return arrayOfThings
-  }
-
-  remove (key) {
-    delete this.things[key]
-  }
-
-  size () {
-    return Object.keys(this.things).length
+  count () {
+    return this.elements.length
   }
 }
