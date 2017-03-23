@@ -166,14 +166,27 @@ describe('Directed graph', () => {
     })
   })
 
-  context('removeVertex(\'v1\')', () => {
+  context('removeVertex()', () => {
     it('removes an existing vertex and all its directions (the incoming and outgoing).', () => {
       const myDirectedGraph = new DirectedGraph()
 
       myDirectedGraph.addVertex('v1')
+      myDirectedGraph.addVertex('v2')
+      myDirectedGraph.addVertex('v3')
+      myDirectedGraph.addVertex('v4')
+      myDirectedGraph.addDirection('v1', 'v2', 3)
+      myDirectedGraph.addDirection('v1', 'v3', 5)
+      myDirectedGraph.addDirection('v2', 'v4', 3)
+      myDirectedGraph.addDirection('v3', 'v4', 5)
 
-      expect(() => myDirectedGraph.removeVertex('v1'))
-        .to.alter(() => myDirectedGraph.count(), { from: 1, to: 0 })
+      expect(myDirectedGraph.count()).to.eql(4)
+
+      myDirectedGraph.removeVertex('v2')
+
+      expect(myDirectedGraph.count()).to.eql(3)
+      expect(myDirectedGraph.hasVertex('v2')).to.eql(false)
+      expect(myDirectedGraph.hasDirection('v1', 'v2')).to.eql(false)
+      expect(myDirectedGraph.hasDirection('v2', 'v4')).to.eql(false)
     })
   })
 

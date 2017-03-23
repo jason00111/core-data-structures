@@ -86,10 +86,14 @@ export default class DirectedGraph { // really a weighted directed graph aka dir
 
     let directionIndex
 
-    while ( directionIndex = this.orderedPairs.findIndex(
-        pair => pair[0] === startVertex && pair[1] === endVertex
-    )) {
-      this.orderedPairs.splice(directionIndex, 1)
+    while (directionIndex !== -1) {
+      directionIndex = this.orderedPairs.findIndex(
+          pair => pair[0] === vertexToRemove || pair[1] === vertexToRemove
+      )
+
+      if (directionIndex !== -1) {
+        this.orderedPairs.splice(directionIndex, 1)
+      }
     }
   }
 
