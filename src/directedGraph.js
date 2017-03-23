@@ -46,8 +46,36 @@ export default class DirectedGraph { // really a weighted directed graph aka dir
     this.elements.forEach(callback)
   }
 
-  findShortestPath (startVertex, endVertex) {
-    //
+  // findShortestPath (startVertex, endVertex) {
+  //   if (startVertex === endVertex) {
+  //     return
+  //   }
+  //
+  //   this.findDirectionsFrom(startVertex).forEach(direction => {
+  //     findShortestPath(direction[1], endVertex)
+  //   })
+  // }
+
+  findWeightOfPath (startVertex, endVertex) {
+    if (startVertex === endVertex) {
+      return 0
+    }
+
+    findOrderedPairsStartingAt(startVertex).reduce((accumulator, pair) => {
+
+      const weight = findWeightOfPath(pair[1], endVertex)
+
+      if ( weight < Infinity ) accumulator.push({
+        weight: weight, vertex: pair[1]
+      })
+
+      return accumulator
+    }, [])
+
+  }
+
+  findOrderedPairsStartingAt (startVertex) {
+    return this.orderedPairs.filter(direction => direction[0] === startVertex)
   }
 
   removeDirection (startVertex, endVertex) {

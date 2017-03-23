@@ -70,7 +70,20 @@ describe('Directed graph', () => {
     })
   })
 
-  context('findShortestPath(\'v1\', \'v2\')', () => {
+  context.only('findShortestPath(\'v1\', \'v2\')', () => {
+    it('returns null if there is no path', () => {
+      const myDirectedGraph = new DirectedGraph()
+
+      myDirectedGraph.addVertex('v1')
+      myDirectedGraph.addVertex('v2')
+      myDirectedGraph.addVertex('v3')
+      myDirectedGraph.addVertex('v4')
+      myDirectedGraph.addDirection('v1', 'v2', 3)
+      myDirectedGraph.addDirection('v1', 'v3', 3)
+
+      expect(myDirectedGraph.findShortestPath('v1', 'v4')).to.be.null
+    })
+
     it('returns an array of all the shortest paths between two vertices based on the sum of weights. test 1', () => {
       const myDirectedGraph = new DirectedGraph()
 
