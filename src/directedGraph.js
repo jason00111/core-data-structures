@@ -19,22 +19,19 @@ export default class DirectedGraph { // really a weighted directed graph aka dir
   }
 
   hasDirection (startVertex, endVertex) {
-    console.log('in hasDirection checking to see if', startVertex, 'to', endVertex, 'is in', this)
-    if (
-      (
-        console.log('this.orderedPairs', this.orderedPairs),
-        console.log('this.orderedPairs.find...',
-          this.orderedPairs.find(
-            pair => pair[0] === startVertex && pair[1] === endVertex
-          )
-        ),
-        this.orderedPairs.find(
-          pair => pair[0] === startVertex && pair[1] === endVertex
-        ) !== undefined
-      )
-    ) {console.log('My conclusion... true'); return true}
 
-    return (console.log('My conclusion... false'), false)
+    return this.orderedPairs.find(
+      pair => pair[0] === startVertex && pair[1] === endVertex
+    )
+
+    ?
+
+    true
+
+    :
+
+    false
+
   }
 
   getDirectionWeight (startVertex, endVertex) {
