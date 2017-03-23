@@ -116,17 +116,30 @@ describe('Directed graph', () => {
     })
   })
 
-  context('removeDirection(\'v1\', \'v2\')', () => {
+  context.only('removeDirection(\'v1\', \'v2\')', () => {
     it('removes an existing direction between \'v1\' and \'v2\'.', () => {
       const myDirectedGraph = new DirectedGraph()
+
+      console.log('myDirectedGraph:', myDirectedGraph)
 
       myDirectedGraph.addVertex('v1')
       myDirectedGraph.addVertex('v2')
 
+      console.log('myDirectedGraph:', myDirectedGraph)
+
       myDirectedGraph.addDirection('v1', 'v2', 3)
+
+      console.log('myDirectedGraph:', myDirectedGraph)
+
       expect(myDirectedGraph.hasDirection('v1', 'v2')).to.eql(true)
 
       myDirectedGraph.removeDirection('v1', 'v2')
+
+      console.log('myDirectedGraph:', myDirectedGraph)
+
+      console.log('myDirectedGraph.hasDirection(\'v1\', \'v2\'):', myDirectedGraph.hasDirection('v1', 'v2'))
+
+      // hasDirection returning false positive
       expect(myDirectedGraph.hasDirection('v1', 'v2')).to.eql(false)
     })
   })
