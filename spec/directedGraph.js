@@ -133,7 +133,7 @@ describe('Directed graph', () => {
     })
   })
 
-  context.only('getSeparatedVertices()', () => {
+  context('getSeparatedVertices()', () => {
     it('returns an array of all the vertices that are unconnected to the graph (have no direction linking them to another vertex).', () => {
       const myDirectedGraph = new DirectedGraph()
 
@@ -156,9 +156,6 @@ describe('Directed graph', () => {
 
       expect(separatedVerticies).to.be.an('array')
       expect(separatedVerticies.length).to.eql(6)
-
-      console.log('myDirectedGraph', myDirectedGraph)
-      console.log('separatedVerticies', separatedVerticies)
 
       expect(separatedVerticies.includes('vA')).to.eql(true)
       expect(separatedVerticies.includes('vB')).to.eql(true)

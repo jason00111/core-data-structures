@@ -61,9 +61,7 @@ export default class DirectedGraph { // really a weighted directed graph aka dir
   }
 
   getSeparatedVertices () {
-    return this.elements.reduce((separatedVerticies, vertex, index, array) => {
-
-      console.log(vertex, 'is at', index, 'in array', array)
+    return this.elements.reduce((separatedVerticies, vertex, index) => {
 
       const indexInSeparatedVerticies = separatedVerticies.indexOf(vertex)
 
@@ -72,11 +70,8 @@ export default class DirectedGraph { // really a weighted directed graph aka dir
       )
 
       if ( indexOfConnectedVertex !== -1 ) {
-        console.log('removing', vertex, 'at index', index)
-        console.log('Before: separatedVerticies->', separatedVerticies)
         separatedVerticies.splice(indexInSeparatedVerticies, 1)
-        console.log('After: separatedVerticies->', separatedVerticies)
-      } else console.log('not removing', vertex)
+      }
 
       return separatedVerticies
     }, this.elements.slice())
