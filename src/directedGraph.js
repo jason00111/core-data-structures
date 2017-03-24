@@ -1,131 +1,93 @@
 'use strict'
 
-export default class DirectedGraph { // really a weighted directed graph aka directed networks
+export default class DirectedGraph { // really a weighted directed graph
   constructor () {
-    this.elements = []
-    this.orderedPairs = [] // [startVertex, endVertex, weight]
+    this.verticies = []
+    this.vectors = [] // {start: 'v1', end: 'v2', weight: 5}
   }
 
   addVertex (vertex) {
-    this.elements.push(vertex)
+    this.verticies.push(vertex)
   }
 
   hasVertex (vertex) {
-    return this.elements.includes(vertex)
+    return this.verticies.includes(vertex)
   }
 
   addDirection (startVertex, endVertex, weight) {
-    this.orderedPairs.push([startVertex, endVertex, weight])
+    this.vectors.push({start: startVertex, end: endVertex, weight: weight})
+  }
+
+  _findDirection (startVertex, endVertex) {
+    return this.vectors.find(
+      vector => vector.start === startVertex && vector.end === endVertex
+    )
+  }
+
+  _findDirectionIndex (startVertex, endVertex) {
+    return this.vectors.findIndex(
+      vector => vector.start === startVertex && vector.end === endVertex
+    )
   }
 
   hasDirection (startVertex, endVertex) {
-
-    return this.orderedPairs.find(
-      pair => pair[0] === startVertex && pair[1] === endVertex
-    )
-
-    ?
-
-    true
-
-    :
-
-    false
-
+    return this._findDirection(startVertex, endVertex) ? true : false
   }
 
   getDirectionWeight (startVertex, endVertex) {
-    if (!this.hasDirection(startVertex, endVertex)) return null
+    const foundVector = this._findDirection(startVertex, endVertex)
 
-    return this.orderedPairs.find(
-      pair => pair[0] === startVertex && pair[1] === endVertex
-    )[2]
+    return foundVector ? foundVector.weight : null
   }
 
   visit (startVertex, callback) {
-    this.elements.forEach(callback)
-  }
-
-  // findShortestPath (startVertex, endVertex) {
-  //   if (startVertex === endVertex) {
-  //     return
-  //   }
-  //
-  //   this.findDirectionsFrom(startVertex).forEach(direction => {
-  //     findShortestPath(direction[1], endVertex)
-  //   })
-  // }
-
-  findWeightOfPath (startVertex, endVertex) {
-    if (startVertex === endVertex) {
-      return 0
-    }
-
-    findOrderedPairsStartingAt(startVertex).reduce((accumulator, pair) => {
-
-      const weight = findWeightOfPath(pair[1], endVertex)
-
-      if ( weight < Infinity ) accumulator.push({
-        weight: weight, vertex: pair[1]
-      })
-
-      return accumulator
-    }, [])
-
-  }
-
-  findOrderedPairsStartingAt (startVertex) {
-    return this.orderedPairs.filter(direction => direction[0] === startVertex)
+    this.verticies.forEach(callback)
   }
 
   removeDirection (startVertex, endVertex) {
-    if (!this.hasDirection(startVertex, endVertex)) return
+    const foundVectorIndex = this._findDirectionIndex(startVertex, endVertex)
 
-    const directionIndex = this.orderedPairs.findIndex(
-      pair => pair[0] === startVertex && pair[1] === endVertex
-    )
-
-    this.orderedPairs.splice(directionIndex, 1)
-  }
-
-  getSeparatedVertices () {
-    return this.elements.reduce((separatedVerticies, vertex, index) => {
-
-      const indexInSeparatedVerticies = separatedVerticies.indexOf(vertex)
-
-      const indexOfConnectedVertex = this.orderedPairs.findIndex(
-        pair => pair.includes(vertex)
-      )
-
-      if ( indexOfConnectedVertex !== -1 ) {
-        separatedVerticies.splice(indexInSeparatedVerticies, 1)
-      }
-
-      return separatedVerticies
-    }, this.elements.slice())
+    if (foundVectorIndex !== -1) this.vectors.splice(foundVectorIndex, 1)
   }
 
   removeVertex (vertexToRemove) {
-    const elementIndex = this.elements.findIndex(
-      element => element === vertexToRemove
+    const vertexIndex = this.verticies.findIndex(
+      vertex => vertex === vertexToRemove
     )
 
-    this.elements.splice(elementIndex, 1)
+    if (vertexIndex !== -1) this.verticies.splice(vertexIndex, 1)
 
-    let directionIndex
+    let vectorIndex
 
-    while (directionIndex !== -1) {
-      directionIndex = this.orderedPairs.findIndex(
-          pair => pair[0] === vertexToRemove || pair[1] === vertexToRemove
+    while (true) {
+      vectorIndex = this.vectors.findIndex(
+        vector => vector.start === vertexToRemove || vector.end === vertexToRemove
       )
 
-      if (directionIndex !== -1) {
-        this.orderedPairs.splice(directionIndex, 1)
-      }
+      if (vectorIndex !== -1) {
+        this.vectors.splice(vectorIndex, 1)
+      } else break
     }
   }
 
+  getSeparatedVertices () {
+    return this.verticies.reduce(
+      (separatedVerticies, vertex, index) => {
+        const vectorWithVertex = this.vectors.find(
+          vector => vector.start === vertex || vector.end === vertex
+        )
+
+        if (vectorWithVertex) {
+          separatedVerticies.splice(separatedVerticies.indexOf(vertex), 1)
+        }
+
+        return separatedVerticies
+      },
+      this.verticies.slice()
+    )
+  }
+
   count () {
-    return this.elements.length
+    return this.verticies.length
   }
 }
