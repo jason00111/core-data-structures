@@ -6,8 +6,10 @@ Base repository for the [Core Data Structures](http://jsdev.learnersguild.org/go
 
 ## Installation and Setup
 
-_Fill this out_
+Clone this repository
+`npm install`
+`npm test`
 
 ## Usage and Examples
 
-_...and this_
+See file `data-structures.md`
