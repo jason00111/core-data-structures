@@ -90,4 +90,49 @@ export default class DirectedGraph { // really a weighted directed graph
   count () {
     return this.verticies.length
   }
+
+  findShortestPaths (startVertex, endVertex) {
+    const shortestPaths = this.findShortestPathsAndWeights(startVertex, endVertex, [], 0).map(path => path.path)
+
+    return shortestPaths.length === 0 ? null : shortestPaths
+  }
+
+  findShortestPathsAndWeights (startVertex, endVertex, pathSoFar, weightSoFar) {
+
+    if (startVertex === endVertex) {
+      return [{ path: pathSoFar.concat(endVertex), weight: weightSoFar }]
+    } else if (pathSoFar.includes(startVertex)) { // loop
+      return [{ path: [], weight: Infinity }]
+    } else {
+      const vectorsStartingAtStart = this.vectors.filter(vector => vector.start === startVertex)
+
+      if (vectorsStartingAtStart.length === 0) // dead end
+        return [{ path: [], weight: Infinity }]
+
+      const paths = vectorsStartingAtStart.reduce(
+        (pathsAcc, vector) => pathsAcc.concat(this.findShortestPathsAndWeights(vector.end, endVertex, pathSoFar.concat(startVertex), weightSoFar + vector.weight)),
+        []
+      )
+
+      const minWeight = paths.reduce(
+        (minWeight, path) => {
+          return path.weight < minWeight ? path.weight : minWeight
+        },
+        Infinity
+      )
+
+      if (minWeight === Infinity) {
+        return []
+      }
+
+      const shortestPathsFromNextVertex = paths.filter(path => path.weight === minWeight)
+
+      const shortestPathsFromStart = shortestPathsFromNextVertex.map(path => ({
+        path: path.path,
+        weight: path.weight + this.getDirectionWeight(startVertex, path.path[0])
+      }))
+
+      return shortestPathsFromStart
+    }
+  }
 }
